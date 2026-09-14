@@ -1,5 +1,7 @@
 # AeroRivet-QC-RF ✈️
 
+*Türkçe | [English](README.en.md)*
+
 Havacılık yapısal montaj (perçin/delik) süreçleri için uçtan uca bir **Makine Öğrenmesi tabanlı Kalite Kontrol** projesi. Random Forest sınıflandırma modeli ile, imalat hattındaki ölçüm verilerinden yola çıkarak bir parçanın **rework (yeniden işlem) gerektirip gerektirmediğini** tahmin eder ve sonuçları interaktif bir Streamlit dashboard üzerinden sunar.
 
 ## Proje Özeti
