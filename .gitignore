@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+*.pkl
+havacilik_montaj_verisi.csv
+.venv/
+venv/
+*.log
+.streamlit/
