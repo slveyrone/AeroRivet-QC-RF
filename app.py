@@ -32,10 +32,10 @@ def metrikleri_yukle(percin_tipi):
     return joblib.load(f"metrikler_{percin_tipi}.pkl")
 
 
-st.title("✈️ AeroRivet-QC-RF — Havacılık Montaj Kalite Kontrol Sistemi")
+st.title("AeroRivet-QC-RF — Havacılık Montaj Kalite Kontrol Sistemi")
 st.caption("Random Forest tabanlı perçin/delik kalite kontrolü — FAA-H-8083-31A tolerans referanslı")
 
-sekme1, sekme2 = st.tabs(["🚀 Anlık Saha Kalite Kontrolü", "📊 Model Başarı & Güvenilirlik Analizi"])
+sekme1, sekme2 = st.tabs(["Anlık Saha Kalite Kontrolü", "Model Başarı & Güvenilirlik Analizi"])
 
 with sekme1:
     percin_tipi_1 = st.selectbox(
@@ -68,7 +68,7 @@ with sekme1:
             st.info("MS20470 (Universal/Protruding Head) perçinlerde havşa açılmaz — bu parametre bu perçin tipi için geçerli değildir.")
         operator_tecrube = st.slider("Operatör Tecrübe (Yıl)", min_value=1, max_value=15, value=5)
 
-    if st.button("🔍 Kalite Kontrol Yap", type="primary"):
+    if st.button("Kalite Kontrol Yap", type="primary"):
         deger_haritasi = {
             "Delik_Capi_mm": delik_capi,
             "Baski_Kuvveti_PSI": baski_kuvveti,
@@ -86,12 +86,12 @@ with sekme1:
 
         if rework_gerekli:
             st.error(
-                f"⛔ REWORK GEREKLİ — Parça toleransları karşılamıyor olabilir. "
+                f"REWORK GEREKLİ — Parça toleransları karşılamıyor olabilir. "
                 f"(Hata olasılığı: %{olasilik * 100:.1f}, Karar eşiği: {VARSAYILAN_ESIK})"
             )
         else:
             st.success(
-                f"✅ PARÇA UYGUN — Kalite kriterlerini karşılıyor. "
+                f"PARÇA UYGUN — Kalite kriterlerini karşılıyor. "
                 f"(Hata olasılığı: %{olasilik * 100:.1f}, Karar eşiği: {VARSAYILAN_ESIK})"
             )
 
@@ -160,7 +160,7 @@ with sekme2:
     st.pyplot(fig)
 
     st.info(
-        "✈️ **Havacılıkta Recall Neden Kritiktir?**\n\n"
+        "**Havacılıkta Recall Neden Kritiktir?**\n\n"
         "False Negative (Kaçan Hata), gerçekte tolerans dışı olan bir parçanın model tarafından "
         "'sağlam' olarak sınıflandırılması demektir. Bu tip bir hata, kusurlu bir perçin/delik "
         "bağlantısının uçağa monte edilmesine ve yapısal bütünlüğün tehlikeye girmesine yol açabilir. "

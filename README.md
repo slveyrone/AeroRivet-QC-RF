@@ -1,4 +1,4 @@
-# AeroRivet-QC-RF ✈️
+# AeroRivet-QC-RF
 
 *Türkçe | [English](README.en.md)*
 
@@ -18,7 +18,7 @@ Uçak gövdesi montajında perçin delikleri; çap, havşa (countersink) derinli
 | | **MS20470** | **NAS1097** |
 |---|---|---|
 | Baş tipi | Universal / Protruding Head (bombe baş) | 100° Flush / Countersunk Head (gömme baş) |
-| Havşa (countersink) | ❌ Açılmaz — baş yüzeyden dışarı taşar | ✅ Açılır — baş yüzeyle aynı hizada oturur |
+| Havşa (countersink) | Açılmaz — baş yüzeyden dışarı taşar | Açılır — baş yüzeyle aynı hizada oturur |
 | Model girdi özellikleri | Delik Çapı, Baskı Kuvveti, Operatör Tecrübesi (3 özellik) | Delik Çapı, Baskı Kuvveti, Havşa Derinliği, Operatör Tecrübesi (4 özellik) |
 | Model/veri dosyası eki | `_MS20470` | `_NAS1097` |
 
@@ -76,11 +76,11 @@ CSV'lerdeki ölçüm sütunları **ölçülen** (sensör/kumpas gürültülü) d
 
 | Değişken | Açıklama | Temel Dağılım (gerçek değer) | MS20470 | NAS1097 |
 |---|---|---|:---:|:---:|
-| `Delik_Capi_mm` | Ölçülen delik çapı (nominal 4.76 mm) | Normal(μ=4.76, σ=0.025, operatör deneyimine göre ±1.4x) + ölçüm gürültüsü (σ=0.008) | ✅ | ✅ |
-| `Baski_Kuvveti_PSI` | Ölçülen perçin baskı/sıkıştırma kuvveti | Uniform(2000, 4000) + ölçüm gürültüsü (σ=40) | ✅ | ✅ |
-| `Havsa_Derinligi_mm` | Ölçülen havşa (countersink) derinliği | Normal(μ=1.20, σ=0.015, operatör deneyimine göre ±1.4x) + ölçüm gürültüsü (σ=0.006) | ❌ | ✅ |
-| `Operator_Tecrube_Yil` | Operatör tecrübe yılı | Tam sayı, 1–15 | ✅ | ✅ |
-| `Rework_Gerekli` | Hedef değişken (0=Sağlam, 1=Rework) | Kural tabanlı (gerçek değerlere göre) + ~%1.5 insan kontrol hatası | ✅ | ✅ |
+| `Delik_Capi_mm` | Ölçülen delik çapı (nominal 4.76 mm) | Normal(μ=4.76, σ=0.025, operatör deneyimine göre ±1.4x) + ölçüm gürültüsü (σ=0.008) | Var | Var |
+| `Baski_Kuvveti_PSI` | Ölçülen perçin baskı/sıkıştırma kuvveti | Uniform(2000, 4000) + ölçüm gürültüsü (σ=40) | Var | Var |
+| `Havsa_Derinligi_mm` | Ölçülen havşa (countersink) derinliği | Normal(μ=1.20, σ=0.015, operatör deneyimine göre ±1.4x) + ölçüm gürültüsü (σ=0.006) | Yok | Var |
+| `Operator_Tecrube_Yil` | Operatör tecrübe yılı | Tam sayı, 1–15 | Var | Var |
+| `Rework_Gerekli` | Hedef değişken (0=Sağlam, 1=Rework) | Kural tabanlı (gerçek değerlere göre) + ~%1.5 insan kontrol hatası | Var | Var |
 
 **Rework kuralı (gerçek/fiziksel değerlere uygulanır):**
 - **MS20470:** Delik çapı `< 4.74 mm` veya `> 4.84 mm` **VEYA** baskı kuvveti `> 3500 PSI` ise parça rework gerektirir.

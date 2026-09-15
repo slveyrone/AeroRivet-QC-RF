@@ -1,4 +1,4 @@
-# AeroRivet-QC-RF ✈️
+# AeroRivet-QC-RF
 
 *[Türkçe](README.md) | English*
 
@@ -18,7 +18,7 @@ In aircraft fuselage assembly, rivet holes are subject to tight tolerances on pa
 | | **MS20470** | **NAS1097** |
 |---|---|---|
 | Head type | Universal / Protruding Head (dome-shaped) | 100° Flush / Countersunk Head |
-| Countersink | ❌ Not cut — head sits proud of the surface | ✅ Cut — head sits flush with the surface |
+| Countersink | Not cut — head sits proud of the surface | Cut — head sits flush with the surface |
 | Model input features | Hole Diameter, Squeeze Force, Operator Experience (3 features) | Hole Diameter, Squeeze Force, Countersink Depth, Operator Experience (4 features) |
 | Model/data file suffix | `_MS20470` | `_NAS1097` |
 
@@ -76,11 +76,11 @@ The measurement columns in the CSVs are **measured** (sensor/caliper-noisy) valu
 
 | Variable | Description | Underlying Distribution (true value) | MS20470 | NAS1097 |
 |---|---|---|:---:|:---:|
-| `Delik_Capi_mm` | Measured hole diameter (nominal 4.76 mm) | Normal(μ=4.76, σ=0.025, ±1.4x by operator experience) + measurement noise (σ=0.008) | ✅ | ✅ |
-| `Baski_Kuvveti_PSI` | Measured rivet squeeze force | Uniform(2000, 4000) + measurement noise (σ=40) | ✅ | ✅ |
-| `Havsa_Derinligi_mm` | Measured countersink depth | Normal(μ=1.20, σ=0.015, ±1.4x by operator experience) + measurement noise (σ=0.006) | ❌ | ✅ |
-| `Operator_Tecrube_Yil` | Operator experience in years | Integer, 1–15 | ✅ | ✅ |
-| `Rework_Gerekli` | Target variable (0=Sound, 1=Rework) | Rule-based (on true values) + ~1.5% human inspection error | ✅ | ✅ |
+| `Delik_Capi_mm` | Measured hole diameter (nominal 4.76 mm) | Normal(μ=4.76, σ=0.025, ±1.4x by operator experience) + measurement noise (σ=0.008) | Yes | Yes |
+| `Baski_Kuvveti_PSI` | Measured rivet squeeze force | Uniform(2000, 4000) + measurement noise (σ=40) | Yes | Yes |
+| `Havsa_Derinligi_mm` | Measured countersink depth | Normal(μ=1.20, σ=0.015, ±1.4x by operator experience) + measurement noise (σ=0.006) | No | Yes |
+| `Operator_Tecrube_Yil` | Operator experience in years | Integer, 1–15 | Yes | Yes |
+| `Rework_Gerekli` | Target variable (0=Sound, 1=Rework) | Rule-based (on true values) + ~1.5% human inspection error | Yes | Yes |
 
 **Rework rule (applied to the true/physical values):**
 - **MS20470:** A part requires rework if the hole diameter is `< 4.74 mm` or `> 4.84 mm` **OR** the squeeze force is `> 3500 PSI`.
