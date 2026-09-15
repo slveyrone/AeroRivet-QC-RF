@@ -17,7 +17,7 @@ st.set_page_config(page_title="AeroRivet QC Dashboard", layout="wide")
 VARSAYILAN_ESIK = 0.25
 
 PERCIN_TIPLERI = {
-    "MS20470": "MS20470 — Universal/Protruding Head (Düz Baş, Havşa Yok)",
+    "MS20470": "MS20470 — Universal/Protruding Head (Bombe Baş, Havşa Yok)",
     "NAS1097": "NAS1097 — Flush/Countersunk Head (Havşalı)",
 }
 

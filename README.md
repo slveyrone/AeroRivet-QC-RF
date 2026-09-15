@@ -6,7 +6,7 @@ Havacılık yapısal montaj (perçin/delik) süreçleri için uçtan uca bir **M
 
 ## Proje Özeti
 
-Uçak gövdesi montajında perçin delikleri; çap, havşa (countersink) derinliği ve baskı kuvveti gibi parametreler açısından sıkı toleranslara tabidir. Bu toleransların dışına çıkılması, yapısal bütünlüğü tehlikeye atabilecek kusurlu bağlantılara yol açar. Ancak tüm perçin tipleri aynı kontrolden geçmez: **MS20470** (Universal/Protruding Head, düz başlı) perçinlerde havşa açılmazken, **NAS1097** (100° Flush/Countersunk Head) perçinlerde havşa derinliği de kritik bir kalite parametresidir. Bu proje:
+Uçak gövdesi montajında perçin delikleri; çap, havşa (countersink) derinliği ve baskı kuvveti gibi parametreler açısından sıkı toleranslara tabidir. Bu toleransların dışına çıkılması, yapısal bütünlüğü tehlikeye atabilecek kusurlu bağlantılara yol açar. Ancak tüm perçin tipleri aynı kontrolden geçmez: **MS20470** (Universal/Protruding Head, bombe başlı) perçinlerde havşa açılmazken, **NAS1097** (100° Flush/Countersunk Head) perçinlerde havşa derinliği de kritik bir kalite parametresidir. Bu proje:
 
 1. **FAA-H-8083-31A** (Aircraft Structural Repair) standardına dayalı, her perçin tipi için kendi tolerans kurallarını uygulayan iki ayrı sentetik imalat veri seti üretir,
 2. Her perçin tipi için kendi özellik setiyle ayrı bir **Random Forest** sınıflandırıcı eğitir,
@@ -17,7 +17,7 @@ Uçak gövdesi montajında perçin delikleri; çap, havşa (countersink) derinli
 
 | | **MS20470** | **NAS1097** |
 |---|---|---|
-| Baş tipi | Universal / Protruding Head (düz baş) | 100° Flush / Countersunk Head (gömme baş) |
+| Baş tipi | Universal / Protruding Head (bombe baş) | 100° Flush / Countersunk Head (gömme baş) |
 | Havşa (countersink) | ❌ Açılmaz — baş yüzeyden dışarı taşar | ✅ Açılır — baş yüzeyle aynı hizada oturur |
 | Model girdi özellikleri | Delik Çapı, Baskı Kuvveti, Operatör Tecrübesi (3 özellik) | Delik Çapı, Baskı Kuvveti, Havşa Derinliği, Operatör Tecrübesi (4 özellik) |
 | Model/veri dosyası eki | `_MS20470` | `_NAS1097` |

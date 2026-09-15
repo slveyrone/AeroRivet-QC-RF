@@ -6,7 +6,7 @@ An end-to-end **Machine Learning-based Quality Control** project for aircraft st
 
 ## Project Summary
 
-In aircraft fuselage assembly, rivet holes are subject to tight tolerances on parameters such as diameter, countersink depth, and squeeze force. Exceeding these tolerances can lead to defective connections that compromise structural integrity. But not every rivet type goes through the same checks: **MS20470** (Universal/Protruding Head) rivets are never countersunk, while for **NAS1097** (100° Flush/Countersunk Head) rivets, countersink depth is also a critical quality parameter. This project:
+In aircraft fuselage assembly, rivet holes are subject to tight tolerances on parameters such as diameter, countersink depth, and squeeze force. Exceeding these tolerances can lead to defective connections that compromise structural integrity. But not every rivet type goes through the same checks: **MS20470** (Universal/Protruding Head, dome-shaped) rivets are never countersunk, while for **NAS1097** (100° Flush/Countersunk Head) rivets, countersink depth is also a critical quality parameter. This project:
 
 1. Generates two separate synthetic manufacturing datasets based on the **FAA-H-8083-31A** (Aircraft Structural Repair) standard, each applying the tolerance rules appropriate to its rivet type,
 2. Trains a separate **Random Forest** classifier per rivet type, each with its own feature set,
@@ -17,7 +17,7 @@ In aircraft fuselage assembly, rivet holes are subject to tight tolerances on pa
 
 | | **MS20470** | **NAS1097** |
 |---|---|---|
-| Head type | Universal / Protruding Head | 100° Flush / Countersunk Head |
+| Head type | Universal / Protruding Head (dome-shaped) | 100° Flush / Countersunk Head |
 | Countersink | ❌ Not cut — head sits proud of the surface | ✅ Cut — head sits flush with the surface |
 | Model input features | Hole Diameter, Squeeze Force, Operator Experience (3 features) | Hole Diameter, Squeeze Force, Countersink Depth, Operator Experience (4 features) |
 | Model/data file suffix | `_MS20470` | `_NAS1097` |
