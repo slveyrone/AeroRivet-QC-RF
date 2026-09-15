@@ -16,26 +16,37 @@ st.set_page_config(page_title="AeroRivet QC Dashboard", layout="wide")
 
 VARSAYILAN_ESIK = 0.25
 
+PERCIN_TIPLERI = {
+    "MS20470": "MS20470 — Universal/Protruding Head (Düz Baş, Havşa Yok)",
+    "NAS1097": "NAS1097 — Flush/Countersunk Head (Havşalı)",
+}
+
 
 @st.cache_resource
-def modeli_yukle():
-    return joblib.load("montaj_modeli.pkl")
+def modeli_yukle(percin_tipi):
+    return joblib.load(f"montaj_modeli_{percin_tipi}.pkl")
 
 
 @st.cache_data
-def metrikleri_yukle():
-    return joblib.load("metrikler.pkl")
+def metrikleri_yukle(percin_tipi):
+    return joblib.load(f"metrikler_{percin_tipi}.pkl")
 
-
-model = modeli_yukle()
-metrikler = metrikleri_yukle()
 
 st.title("✈️ AeroRivet-QC-RF — Havacılık Montaj Kalite Kontrol Sistemi")
-st.caption("Random Forest tabanlı NAS1097 flush perçin/delik/havşa kalite kontrolü — FAA-H-8083-31A tolerans referanslı")
+st.caption("Random Forest tabanlı perçin/delik kalite kontrolü — FAA-H-8083-31A tolerans referanslı")
 
 sekme1, sekme2 = st.tabs(["🚀 Anlık Saha Kalite Kontrolü", "📊 Model Başarı & Güvenilirlik Analizi"])
 
 with sekme1:
+    percin_tipi_1 = st.selectbox(
+        "Perçin Tipi",
+        options=list(PERCIN_TIPLERI.keys()),
+        format_func=lambda k: PERCIN_TIPLERI[k],
+        key="percin_tipi_sekme1",
+    )
+    model = modeli_yukle(percin_tipi_1)
+    metrikler = metrikleri_yukle(percin_tipi_1)
+
     st.subheader("Saha Ölçüm Girişi")
     st.write("Operatör tarafından alınan ölçümleri girin ve parçanın kalite durumunu kontrol edin.")
 
@@ -48,14 +59,24 @@ with sekme1:
             "Baskı Kuvveti (PSI)", min_value=1000, max_value=5000, value=3000, step=10
         )
     with col2:
-        havsa_derinligi = st.number_input(
-            "Havşa Derinliği (mm)", min_value=0.80, max_value=1.60, value=1.20, step=0.001, format="%.3f"
-        )
+        havsa_derinligi = None
+        if percin_tipi_1 == "NAS1097":
+            havsa_derinligi = st.number_input(
+                "Havşa Derinliği (mm)", min_value=0.80, max_value=1.60, value=1.20, step=0.001, format="%.3f"
+            )
+        else:
+            st.info("MS20470 (Universal/Protruding Head) perçinlerde havşa açılmaz — bu parametre bu perçin tipi için geçerli değildir.")
         operator_tecrube = st.slider("Operatör Tecrübe (Yıl)", min_value=1, max_value=15, value=5)
 
     if st.button("🔍 Kalite Kontrol Yap", type="primary"):
+        deger_haritasi = {
+            "Delik_Capi_mm": delik_capi,
+            "Baski_Kuvveti_PSI": baski_kuvveti,
+            "Havsa_Derinligi_mm": havsa_derinligi,
+            "Operator_Tecrube_Yil": operator_tecrube,
+        }
         girdi = pd.DataFrame(
-            [[delik_capi, baski_kuvveti, havsa_derinligi, operator_tecrube]],
+            [[deger_haritasi[ozellik] for ozellik in metrikler["features"]]],
             columns=metrikler["features"],
         )
         olasilik = model.predict_proba(girdi)[0, 1]
@@ -75,6 +96,14 @@ with sekme1:
             )
 
 with sekme2:
+    percin_tipi_2 = st.selectbox(
+        "Perçin Tipi",
+        options=list(PERCIN_TIPLERI.keys()),
+        format_func=lambda k: PERCIN_TIPLERI[k],
+        key="percin_tipi_sekme2",
+    )
+    metrikler2 = metrikleri_yukle(percin_tipi_2)
+
     st.subheader("Model Performans Metrikleri")
 
     esik = st.slider(
@@ -86,8 +115,8 @@ with sekme2:
         help="Düşük eşik = daha yüksek Recall (daha az kaçan hata), daha düşük Precision",
     )
 
-    y_test = metrikler["y_test"]
-    olasiliklar = metrikler["olasiliklar"]
+    y_test = metrikler2["y_test"]
+    olasiliklar = metrikler2["olasiliklar"]
     tahminler = (olasiliklar >= esik).astype(int)
 
     accuracy = accuracy_score(y_test, tahminler)
@@ -123,7 +152,7 @@ with sekme2:
 
     ax.set_xlabel("Recall")
     ax.set_ylabel("Precision")
-    ax.set_title("Precision-Recall Curve — Rework Tespiti")
+    ax.set_title(f"Precision-Recall Curve — {percin_tipi_2} Rework Tespiti")
     ax.legend(loc="lower left")
     ax.set_xlim([0, 1.02])
     ax.set_ylim([0, 1.02])

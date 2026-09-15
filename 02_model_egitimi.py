@@ -14,13 +14,18 @@ from sklearn.model_selection import train_test_split
 
 RANDOM_SEED = 42
 KARAR_ESIGI = 0.25
-FEATURES = ["Delik_Capi_mm", "Baski_Kuvveti_PSI", "Havsa_Derinligi_mm", "Operator_Tecrube_Yil"]
 TARGET = "Rework_Gerekli"
 
+FEATURES_BY_TIP = {
+    "MS20470": ["Delik_Capi_mm", "Baski_Kuvveti_PSI", "Operator_Tecrube_Yil"],
+    "NAS1097": ["Delik_Capi_mm", "Baski_Kuvveti_PSI", "Havsa_Derinligi_mm", "Operator_Tecrube_Yil"],
+}
 
-def main():
-    df = pd.read_csv("havacilik_montaj_verisi.csv")
-    X = df[FEATURES]
+
+def modeli_egit(percin_tipi):
+    features = FEATURES_BY_TIP[percin_tipi]
+    df = pd.read_csv(f"havacilik_montaj_verisi_{percin_tipi}.csv")
+    X = df[features]
     y = df[TARGET]
 
     X_train, X_test, y_train, y_test = train_test_split(
@@ -40,6 +45,7 @@ def main():
     cm = confusion_matrix(y_test, tahminler)
     tn, fp, fn, tp = cm.ravel()
 
+    print(f"=== {percin_tipi} ===")
     print(f"Karar Eşiği: {KARAR_ESIGI}")
     print(f"Accuracy : {accuracy:.4f}")
     print(f"Precision: {precision:.4f}")
@@ -62,9 +68,13 @@ def main():
     else:
         print("\n[Bilgi] Test verisinde hiçbir eşik %99+ Recall hedefini karşılamıyor.")
 
-    joblib.dump(model, "montaj_modeli.pkl")
+    model_dosyasi = f"montaj_modeli_{percin_tipi}.pkl"
+    metrik_dosyasi = f"metrikler_{percin_tipi}.pkl"
+
+    joblib.dump(model, model_dosyasi)
 
     metrikler = {
+        "percin_tipi": percin_tipi,
         "X_test": X_test,
         "y_test": y_test,
         "olasiliklar": olasiliklar,
@@ -74,13 +84,14 @@ def main():
         "recall": recall,
         "f1": f1,
         "confusion_matrix": cm,
-        "features": FEATURES,
+        "features": features,
     }
-    joblib.dump(metrikler, "metrikler.pkl")
+    joblib.dump(metrikler, metrik_dosyasi)
 
-    print("\nModel kaydedildi -> montaj_modeli.pkl")
-    print("Metrikler kaydedildi -> metrikler.pkl")
+    print(f"\nModel kaydedildi -> {model_dosyasi}")
+    print(f"Metrikler kaydedildi -> {metrik_dosyasi}\n")
 
 
 if __name__ == "__main__":
-    main()
+    for percin_tipi in FEATURES_BY_TIP:
+        modeli_egit(percin_tipi)
