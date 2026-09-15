@@ -2,6 +2,8 @@ __pycache__/
 *.pyc
 *.pkl
 havacilik_montaj_verisi_*.csv
+model_fai_kaydi_*.json
+izlenebilirlik_kaydi.csv
 .venv/
 venv/
 *.log
